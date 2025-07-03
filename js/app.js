@@ -1,7 +1,7 @@
-// Importações Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
 import { 
-  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged 
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, 
+  signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup 
 } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
 import { 
   getFirestore, collection, addDoc, query, where, orderBy, 
@@ -56,7 +56,7 @@ if (registerForm) {
   });
 }
 
-// ----- Login -----
+// ----- Login com Email e Senha -----
 const loginForm = document.getElementById('loginForm');
 
 if (loginForm) {
@@ -72,6 +72,23 @@ if (loginForm) {
       window.location.href = 'tasks.html';
     } catch (error) {
       alert('Erro no login: ' + error.message);
+    }
+  });
+}
+
+// ----- Login com Google -----
+const googleLoginBtn = document.getElementById('googleLogin');
+
+if (googleLoginBtn) {
+  const provider = new GoogleAuthProvider();
+
+  googleLoginBtn.addEventListener('click', async () => {
+    try {
+      await signInWithPopup(auth, provider);
+      alert("Login com Google realizado!");
+      window.location.href = 'tasks.html';
+    } catch (error) {
+      alert("Erro no login com Google: " + error.message);
     }
   });
 }
